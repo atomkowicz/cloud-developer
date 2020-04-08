@@ -32,7 +32,7 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
       try {
         const isImageDeleted = await deleteLocalFiles([processedImage]);
       } catch(e) {
-        console.log(e)
+        console.log(e);
       }
     });
   });
