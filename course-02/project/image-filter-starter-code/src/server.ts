@@ -23,18 +23,18 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
     const isUrlValid = image_url && /^http[s]:\/\//.test(image_url);
     if (!isUrlValid) res.send("Url is not a valid url");
 
-    //    call filterImageFromURL(image_url) to filter the image
-    const processedImage = await filterImageFromURL(image_url);
+    try {
+      //    call filterImageFromURL(image_url) to filter the image
+      const processedImage = await filterImageFromURL(image_url);
+      //    send the resulting file in the response
+      //    deletes any files on the server on finish of the response
 
-    //    send the resulting file in the response
-    //    deletes any files on the server on finish of the response
-    res.sendFile(processedImage, async () =>{
-      try {
+      res.sendFile(processedImage, async () => {
         const isImageDeleted = await deleteLocalFiles([processedImage]);
-      } catch(e) {
-        console.log(e);
-      }
-    });
+      });
+    } catch (e) {
+      res.status(500).send(`Something went wrong. Make sure the image url you provided is valid: ${image_url}`);
+    }
   });
 
   // Root Endpoint
