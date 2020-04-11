@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import { filterImageFromURL, deleteLocalFiles } from './util/util';
 
 (async () => {
-
   // Init the Express application
   const app = express();
 
@@ -21,7 +20,7 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
 
     //    validate the image_url query
     const isUrlValid = image_url && /^http[s]:\/\//.test(image_url);
-    if (!isUrlValid) res.send("Url is not a valid url");
+    if (!isUrlValid) res.status(400).send("Link to image is not a valid url.");
 
     try {
       //    call filterImageFromURL(image_url) to filter the image
@@ -32,8 +31,9 @@ import { filterImageFromURL, deleteLocalFiles } from './util/util';
       res.sendFile(processedImage, async () => {
         const isImageDeleted = await deleteLocalFiles([processedImage]);
       });
+
     } catch (e) {
-      res.status(500).send(`Something went wrong. Make sure the image url you provided is valid: ${image_url}`);
+      res.status(422).send(`Unable to filter image. Make sure the image url you provided is valid: ${image_url}`);
     }
   });
 
