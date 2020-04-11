@@ -12,7 +12,9 @@ const API_HOST = environment.apiHost;
 })
 export class ApiService {
   httpOptions = {
-    headers: new HttpHeaders({'Content-Type': 'application/json'})
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })
   };
 
   token: string;
@@ -25,6 +27,8 @@ export class ApiService {
   }
 
   setAuthToken(token) {
+    this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Origin', '*');
+    this.httpOptions.headers = this.httpOptions.headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
     this.httpOptions.headers = this.httpOptions.headers.append('Authorization', `jwt ${token}`);
     this.token = token;
   }
@@ -54,7 +58,12 @@ export class ApiService {
   async upload(endpoint: string, file: File, payload: any): Promise<any> {
     const signed_url = (await this.get(`${endpoint}/signed-url/${file.name}`)).url;
 
-    const headers = new HttpHeaders({'Content-Type': file.type});
+    let headers = new HttpHeaders({'Content-Type': file.type});
+    headers = headers.append('Access-Control-Allow-Origin', '*');
+    headers = headers.append('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
+    headers = headers.append('Access-Control-Allow-Methods','GET, POST, PUT OPTIONS');
+
+
     const req = new HttpRequest( 'PUT', signed_url, file,
                                   {
                                     headers: headers,
