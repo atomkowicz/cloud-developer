@@ -1,0 +1,128 @@
+{
+	"info": {
+		"_postman_id": "bb098366-1b85-4cc2-b737-85e4af39714c",
+		"name": "Udacity-filtered-image",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get valid image url",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "59f8880f-acee-44b8-bc9e-65e5df97cd24",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{domain}}/filteredimage?image_url={{validImageUrl}}",
+					"protocol": "http",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"filteredimage"
+					],
+					"query": [
+						{
+							"key": "image_url",
+							"value": "{{validImageUrl}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get valid image url but invalid image",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "59f8880f-acee-44b8-bc9e-65e5df97cd24",
+						"exec": [
+							"pm.test(\"Status code is 422\", function () {",
+							"    pm.response.to.have.status(422);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://{{domain}}/filteredimage?image_url={{invalidImageUrl}}",
+					"protocol": "http",
+					"host": [
+						"{{domain}}"
+					],
+					"path": [
+						"filteredimage"
+					],
+					"query": [
+						{
+							"key": "image_url",
+							"value": "{{invalidImageUrl}}"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "b3217c45-e597-424c-9461-16237974fbde",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "858d3ba9-f72c-4bcf-90fd-17a2c85b7b4f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "f7fb0728-0e8c-4bdf-be87-0b3c2a13c33d",
+			"key": "domain",
+			"value": "image-filter-starter-code-dev2222222222.us-east-1.elasticbeanstalk.com",
+			"type": "string"
+		},
+		{
+			"id": "7e9206cc-9523-4490-8160-734f786e9c5a",
+			"key": "validImageUrl",
+			"value": "https://www.alphashooters.com/wp-content/uploads/2019/04/sony-a6400-sample-image-butterfly-DSC07365.jpg",
+			"type": "string"
+		},
+		{
+			"id": "cfe26523-d007-4ac3-81c9-6dcd60179080",
+			"key": "invalidImageUrl",
+			"value": "https://timedotcom.files.wordpress.com/2019/03/kitten-report.jpg",
+			"type": "string"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
